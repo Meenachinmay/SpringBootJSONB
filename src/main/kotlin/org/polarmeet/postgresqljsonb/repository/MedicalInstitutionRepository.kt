@@ -5,6 +5,7 @@ import org.springframework.data.r2dbc.repository.Query
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import java.util.*
 
 @Repository
@@ -15,4 +16,10 @@ interface MedicalInstitutionRepository : ReactiveCrudRepository<MedicalInstituti
         WHERE contact_information->>'email' = :email
     """)
     fun findByContactEmail(email: String): Flux<MedicalInstitution>
+
+    @Query("""
+        SELECT * FROM medical_institutions 
+        WHERE license_number = :licenseNumber
+    """)
+    fun findByLicenseNumber(licenseNumber: String): Mono<MedicalInstitution>
 }
